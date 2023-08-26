@@ -1,7 +1,7 @@
-import { AccountData } from '@/lib/account-data';
+import { AccountData, FilteredAccountData } from '@/lib/account-data';
 
 interface RequesterListProps {
-  data: AccountData[];
+  data: AccountData[] | FilteredAccountData[];
 }
 
 export default function RequesterList({ data }: RequesterListProps) {
@@ -19,6 +19,17 @@ export default function RequesterList({ data }: RequesterListProps) {
           <p>{acc.currentBalance.eth} ETH</p>
           <p>{acc.currentBalance.arb} ARB</p>
           <p>{acc.currentBalance.op} OP</p>
+          {'tokenBalances' in acc && (
+            <>
+              <hr />
+              <h3>Token Balances</h3>
+              {acc.tokenBalances?.map((token) => (
+                <p>
+                  Contract {token.tokenAddress} has {token.balance}
+                </p>
+              ))}
+            </>
+          )}
         </div>
       ))}
     </>
