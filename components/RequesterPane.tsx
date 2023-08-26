@@ -13,8 +13,6 @@ export default function RequesterPane({ initialData }: RequesterPaneProps) {
 
   async function handleFilterChange(addresses: Addresses[]) {
     try {
-      console.log(addresses);
-
       const res = await fetch('/api/filter', {
         method: 'POST',
         headers: {
@@ -29,7 +27,7 @@ export default function RequesterPane({ initialData }: RequesterPaneProps) {
       }
 
       const data = await res.json();
-      console.log(data);
+      setData(data);
     } catch (error) {
       console.error('Error:', error);
     }

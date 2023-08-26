@@ -8,6 +8,10 @@ interface FilterFormProps {
 }
 
 export default function FilterForm({ onApplyFilter }: FilterFormProps) {
+  // Add `FilterForm` component to allow adding filters and make
+  // an API request to the backend that will return only the
+  // Requester addresses that are not excluded by the filter.
+
   const [addresses, setAddresses] = useState<Addresses[]>([
     { address: '', type: 'token', chain: 'Ethereum' },
   ]);
