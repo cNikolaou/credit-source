@@ -12,6 +12,10 @@ export default function Home({ accountData }) {
           <hr />
           <p>Trusted Credit in Ethereum: {acc.creditData.ethereum.trustedCredit}</p>
           <p>Trusted Credit in Arbitrum: {acc.creditData.arbitrum.trustedCredit}</p>
+          <hr />
+          <p>{acc.currentBalance.eth} ETH</p>
+          <p>{acc.currentBalance.arb} ARB</p>
+          <p>{acc.currentBalance.op} OP</p>
         </div>
       ))}
     </>
