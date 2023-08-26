@@ -1,5 +1,5 @@
-import { getAccountCreditData } from '@/lib/credit';
-import type { AccountCreditData } from '@/lib/credit';
+import { getAccountCreditData, AccountCreditData } from '@/lib/credit';
+import { getBalance, AccountCurrentBalance } from '@/lib/token';
 
 const accounts = [
   '0x5DA3C2c0250D311B2763bdf3cfa49C0f4a219987',
@@ -9,6 +9,7 @@ const accounts = [
 export type AccountData = {
   address: string;
   creditData: AccountCreditData;
+  currentBalance: AccountCurrentBalance;
 };
 
 export async function getAccountData(): Promise<AccountData[]> {
@@ -16,10 +17,12 @@ export async function getAccountData(): Promise<AccountData[]> {
 
   const accountDataPromises = accounts.map(async (address) => {
     const creditData = await getAccountCreditData(address);
+    const currentBalance = await getBalance(address);
 
     return {
       address: address,
       creditData: creditData,
+      currentBalance: currentBalance,
     };
   });
 
