@@ -3,17 +3,17 @@ import { utils } from 'ethers';
 
 const settingsEthereum = {
   apiKey: process.env.ALCHEMY_API_KEY_ETHEREUM,
-  network: process.env.NETWORK ? Network.ETH_MAINNET : Network.ETH_GOERLI,
+  network: process.env.NETWORK === 'mainnet' ? Network.ETH_MAINNET : Network.ETH_GOERLI,
 };
 
 const settingsArbitrum = {
   apiKey: process.env.ALCHEMY_API_KEY_ARBITRUM,
-  network: process.env.NETWORK ? Network.ARB_MAINNET : Network.ARB_GOERLI,
+  network: process.env.NETWORK === 'mainnet' ? Network.ARB_MAINNET : Network.ARB_GOERLI,
 };
 
 const settingsOptimism = {
   apiKey: process.env.ALCHEMY_API_KEY_OPTIMISM,
-  network: process.env.NETWORK ? Network.OPT_MAINNET : Network.OPT_GOERLI,
+  network: process.env.NETWORK === 'mainnet' ? Network.OPT_MAINNET : Network.OPT_GOERLI,
 };
 
 const alchemyEthereum = new Alchemy(settingsEthereum);
