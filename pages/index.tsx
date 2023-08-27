@@ -1,24 +1,22 @@
 import { getAccountData, AccountData } from '@/lib/account-data';
+import { Inter } from 'next/font/google';
 
 import RequesterPane from '@/components/RequesterPane';
-import ProfileConnect from '@/components/ProfileConnect';
-import CreditRequest from '@/components/CreditRequest';
-
-import { useAccount } from 'wagmi';
+import NavigationBar from '@/components/NavigationBar';
 
 interface HomeProps {
   accountData: AccountData[];
 }
 
-export default function Home({ accountData }: HomeProps) {
-  const account = useAccount();
+const inter = Inter({ subsets: ['latin'] });
 
+export default function Home({ accountData }: HomeProps) {
   return (
     <>
-      <h1>Credit Source</h1>
-      <ProfileConnect />
-      {account.isConnected && <CreditRequest />}
-      <RequesterPane initialData={accountData} />
+      <NavigationBar />
+      <div className="container mx-auto px-4 mt-6">
+        <RequesterPane initialData={accountData} />
+      </div>
     </>
   );
 }

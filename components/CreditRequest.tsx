@@ -23,33 +23,37 @@ export default function CreditRequest() {
   });
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        write?.();
-        setAmount('');
-      }}
-    >
-      <label htmlFor="amount">Amount</label>
-      <input
-        id="amount"
-        aria-label="Amount (ether)"
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="0"
-        value={amount}
-      />{' '}
-      DAI
-      <button type="submit" disabled={!write || isLoading}>
-        {isLoading ? 'Updating...' : 'Update'}
-      </button>
-      {isSuccess && (
-        <div>
-          Successfully minted your NFT!
+    <div className="mb-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          write?.();
+          setAmount('');
+        }}
+      >
+        <label htmlFor="amount" className="mr-4">
+          Amount of DAI
+        </label>
+        <input
+          id="amount"
+          aria-label="Amount (ether)"
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="0"
+          value={amount}
+          className="p-2 border border-gray-300 rounded w-1/2"
+        />
+        <button type="submit" disabled={!write || isLoading} className="ml-4">
+          {isLoading ? 'Updating...' : 'Update'}
+        </button>
+        {isSuccess && (
           <div>
-            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+            Successfully minted your NFT!
+            <div>
+              <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+            </div>
           </div>
-        </div>
-      )}
-    </form>
+        )}
+      </form>
+    </div>
   );
 }

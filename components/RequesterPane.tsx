@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useAccount } from 'wagmi';
 
 import RequesterList from './RequesterList';
 import FilterForm from './FilterForm';
+import CreditRequest from '@/components/CreditRequest';
 import type { AccountData, Addresses } from '@/lib/account-data';
 
 interface RequesterPaneProps {
@@ -10,6 +12,8 @@ interface RequesterPaneProps {
 
 export default function RequesterPane({ initialData }: RequesterPaneProps) {
   const [data, setData] = useState(initialData);
+
+  const account = useAccount();
 
   async function handleFilterChange(addresses: Addresses[]) {
     try {
@@ -35,8 +39,19 @@ export default function RequesterPane({ initialData }: RequesterPaneProps) {
 
   return (
     <>
-      <FilterForm onApplyFilter={handleFilterChange} />
-      <RequesterList data={data}></RequesterList>
+      <div className="flex justify-between">
+        <div className="w-1/2">
+          <div className={account.isConnected ? 'opacity-1' : 'opacity-0'}>
+            <CreditRequest />
+          </div>
+          <div className="mt-8">
+            <FilterForm onApplyFilter={handleFilterChange} />
+          </div>
+        </div>
+        <div className="w-1/2">
+          <RequesterList data={data}></RequesterList>
+        </div>
+      </div>
     </>
   );
 }

@@ -11,20 +11,12 @@ export default function ProfileConnect() {
   if (isConnected)
     return (
       <div>
-        <button className="font-bold rounded bg-blue-500 text-white" onClick={() => disconnect()}>
-          Disconnect
-        </button>
-        <div>Account:</div>
-        <div className="text-xs text-gray-500 w-48">{address}</div>
+        <button onClick={() => disconnect()}>{address?.substring(0, 10)}...</button>
       </div>
     );
   return (
     <>
-      <button className="font-bold rounded bg-blue-500 text-white" onClick={() => connect()}>
-        Connect Wallet
-      </button>
-      <div>Account:</div>
-      <div>Not connected yet</div>
+      <button onClick={() => connect()}>Connect Wallet</button>
     </>
   );
 }
