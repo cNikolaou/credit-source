@@ -1,3 +1,5 @@
+import { utils } from 'ethers';
+
 import { getAccountCreditData, AccountCreditData } from '@/lib/credit';
 import {
   getBalance,
@@ -7,28 +9,35 @@ import {
   Chain,
 } from '@/lib/token';
 
-const accounts = [
-  '0x5DA3C2c0250D311B2763bdf3cfa49C0f4a219987',
-  '0xfc32e7c7c55391ebb4f91187c91418bf96860ca9',
-];
+import creditRequestContract from './contract';
+
+async function getAccounts(): Promise<string[]> {
+  const requesters = await creditRequestContract.getAddressesWithRequests();
+  return requesters;
+}
 
 export type AccountData = {
   address: string;
   creditData: AccountCreditData;
   currentBalance: AccountCurrentBalance;
+  requestedCredit: string;
 };
 
 export async function getAccountData(): Promise<AccountData[]> {
   // fetch data for all accounts that are requesting additional credit
 
+  const accounts = await getAccounts();
+
   const accountDataPromises = accounts.map(async (address) => {
     const creditData = await getAccountCreditData(address);
     const currentBalance = await getBalance(address);
+    const requestedCredit = await creditRequestContract.getRequestedCredit(address);
 
     return {
       address: address,
       creditData: creditData,
       currentBalance: currentBalance,
+      requestedCredit: utils.formatUnits(requestedCredit, 18),
     };
   });
 
@@ -48,6 +57,8 @@ export type FilteredAccountData = AccountData & {
 };
 
 export async function getAccountFilteredData(addressFilters: Addresses[]) {
+  const accounts = await getAccounts();
+
   const tokenFilters = addressFilters
     .filter((flt) => flt.type === 'token' && flt.address !== '')
     .map((flt) => {
@@ -79,8 +90,6 @@ export async function getAccountFilteredData(addressFilters: Addresses[]) {
     if (tokenFilters.length > 0) {
       const tokenBalances = await getTokenBalance(address, tokenFilters);
       result.tokenBalances = tokenBalances;
-    } else {
-      console.log('NO FILTER');
     }
 
     return result;
@@ -92,8 +101,6 @@ export async function getAccountFilteredData(addressFilters: Addresses[]) {
     const greaterThanZero = (accBalance: AccountCurrentTokenBalance) => accBalance.balance > 0;
     accountData = accountData.filter((account) => account.tokenBalances!.every(greaterThanZero));
   }
-
-  console.log(accountData);
 
   return accountData;
 }

@@ -9,7 +9,6 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       const filteredData = await getAccountFilteredData(JSON.parse(req.body));
-      console.log(filteredData);
       res.status(200).json(filteredData);
     } catch (error) {
       res.status(400);
