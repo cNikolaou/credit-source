@@ -10,6 +10,7 @@ export default function RequesterList({ data }: RequesterListProps) {
       {data.map((acc) => (
         <div className="card" key={acc.address}>
           <h2>{acc.address.toUpperCase()}</h2>
+          <p>Requested Credit: {acc.requestedCredit} DAI</p>
           <p>Trusted by: {acc.creditData.ethereum.trustedBy} accounts in Ethereum</p>
           <p>Trusted by: {acc.creditData.arbitrum.trustedBy} accounts in Arbitrum</p>
           <hr />
