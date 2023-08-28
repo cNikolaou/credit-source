@@ -80,11 +80,13 @@ export async function getAccountFilteredData(addressFilters: Addresses[]) {
   const accountDataPromises = accounts.map(async (address) => {
     const creditData = await getAccountCreditData(address);
     const currentBalance = await getBalance(address);
+    const requestedCredit = await creditRequestContract.getRequestedCredit(address);
 
     const result: FilteredAccountData = {
       address,
       creditData,
       currentBalance,
+      requestedCredit: utils.formatUnits(requestedCredit, 18),
     };
 
     if (tokenFilters.length > 0) {

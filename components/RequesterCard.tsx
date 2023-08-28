@@ -7,7 +7,7 @@ interface RequesterCardProps {
 export default function RequesterCard({ data }: RequesterCardProps) {
   return (
     <div className="bg-white p-6 rounded shadow-lg">
-      <h2 className="text-gray-800 text-lg font-bold">{data.address.toUpperCase()}</h2>
+      <h2 className="text-gray-800 text-lg font-bold">{data.address}</h2>
       <h3 className="text-gray-600 text-md mb-4">Requested Credit: {data.requestedCredit} DAI</h3>
       <ul className="list-disc list-inside text-gray-700 list-none">
         <li>Trusted by: {data.creditData.ethereum.trustedBy} accounts in Ethereum</li>
@@ -15,6 +15,12 @@ export default function RequesterCard({ data }: RequesterCardProps) {
         <hr />
         <li>Trusted Credit in Ethereum: {data.creditData.ethereum.trustedCredit}</li>
         <li>Trusted Credit in Arbitrum: {data.creditData.arbitrum.trustedCredit}</li>
+        <hr />
+        <li>Amount Borrowed in Ethereum: {data.creditData.ethereum.borrowedAmount}</li>
+        <li>Amount Borrowed in Arbitrum: {data.creditData.arbitrum.borrowedAmount}</li>
+        <hr />
+        <li>Credit Repaid in Ethereum: {data.creditData.ethereum.repaidAmount}</li>
+        <li>Credit Repaid in Arbitrum: {data.creditData.arbitrum.repaidAmount}</li>
         <hr />
         <li>{data.currentBalance.eth} ETH</li>
         <li>{data.currentBalance.arb} ARB</li>
