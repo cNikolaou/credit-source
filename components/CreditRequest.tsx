@@ -12,7 +12,7 @@ export default function CreditRequest() {
     address: '0x1646b92dc747103ec0F6E71914B8Eca18ca21648',
     abi: contractArtifact.abi,
     functionName: parseInt(debouncedAmount) >= 0 ? 'increaseRequest' : 'decreaseRequest',
-    args: [parseInt(debouncedAmount)],
+    args: [parseInt(debouncedAmount) * 10 ** 18],
     enabled: Boolean(debouncedAmount),
   });
 
