@@ -20,6 +20,7 @@ The information that Credit Source currently provides:
 
 
 ## Smart Contract
+
 The smart contract `contract-hardhat/contracts/CreditRequest.sol` is currently
 deployed on Arbitrum Goerli at: 0x1646b92dc747103ec0F6E71914B8Eca18ca21648
 

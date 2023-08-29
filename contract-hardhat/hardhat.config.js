@@ -16,6 +16,10 @@ module.exports = {
       chainId: 421613,
       accounts: [EVM_PRIVATE_KEY],
     },
+    avalancheFiji: {
+      url: 'https://api.avax-test.network/ext/bc/C/rpc',
+      chainId: 43113,
+      accounts: [EVM_PRIVATE_KEY],
     },
   },
 };
