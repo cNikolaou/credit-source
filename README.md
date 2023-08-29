@@ -46,6 +46,12 @@ npm run dev
 
 ## UI Overview
 
-Below is a screenshot of the
+Below is a screenshot of the UI.
+
+- On the left hand side, there is:
+    - a field for making requests for credit lines, after a user connects with their wallet
+    - a list of filter fields to filter in only the requesters that own a particular token
+- On the right hand side there is a list of the requesters who have made their desire for
+lines of credit public on the Avalanche or Arbitrum blockchains
 
 ![Overview](/docs/demo.png)
