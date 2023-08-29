@@ -4,6 +4,7 @@ import { useAccount } from 'wagmi';
 import RequesterList from './RequesterList';
 import FilterForm from './FilterForm';
 import CreditRequest from '@/components/CreditRequest';
+import RequestAlert from '@/components/RequestAlert';
 import type { AccountData, Addresses } from '@/lib/account-data';
 
 interface RequesterPaneProps {
@@ -42,6 +43,7 @@ export default function RequesterPane({ initialData }: RequesterPaneProps) {
       <div className="flex justify-between">
         <div className="w-1/2">
           <div className={account.isConnected ? 'opacity-1' : 'opacity-0'}>
+            <RequestAlert />
             <CreditRequest />
           </div>
           <div className="mt-8">
