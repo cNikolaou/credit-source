@@ -29,6 +29,7 @@ export default function RequesterCard({ data }: RequesterCardProps) {
         <hr />
         <li>{data.currentBalance.eth} ETH</li>
         <li>{data.currentBalance.arb} ARB</li>
+        <li>{data.currentBalance.avax} AVAX</li>
         <hr />
         {'tokenBalances' in data && (
           <>

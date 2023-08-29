@@ -1,5 +1,6 @@
 import { Network, Alchemy, TokenBalancesResponse } from 'alchemy-sdk';
 import { utils } from 'ethers';
+import { providerAvalanche } from './contract';
 
 const settingsEthereum = {
   apiKey: process.env.ALCHEMY_API_KEY_ETHEREUM,
@@ -22,7 +23,7 @@ const alchemyOptimism = new Alchemy(settingsOptimism);
 
 type UserAddress = string;
 
-export type Chain = 'Ethereum' | 'Arbitrum' | 'Optimism';
+export type Chain = 'Ethereum' | 'Arbitrum' | 'Optimism' | 'Avalanche';
 
 type TokenContractAddress = {
   address: string;
@@ -33,6 +34,7 @@ export type AccountCurrentBalance = {
   eth: string;
   arb: string;
   op: string;
+  avax: string;
 };
 
 export async function getBalance(userAddress: UserAddress): Promise<AccountCurrentBalance> {
@@ -42,11 +44,13 @@ export async function getBalance(userAddress: UserAddress): Promise<AccountCurre
   const ethBalance = await alchemyEthereum.core.getBalance(userAddress);
   const arbBalance = await alchemyArbitrum.core.getBalance(userAddress);
   const optBalance = await alchemyOptimism.core.getBalance(userAddress);
+  const avaxBalance = await providerAvalanche.getBalance(userAddress);
 
   const networkBalances: AccountCurrentBalance = {
     eth: parseFloat(utils.formatEther(ethBalance)).toFixed(5),
     arb: parseFloat(utils.formatEther(arbBalance)).toFixed(5),
     op: parseFloat(utils.formatEther(optBalance)).toFixed(5),
+    avax: parseFloat(utils.formatEther(avaxBalance)).toFixed(5),
   };
 
   return networkBalances;

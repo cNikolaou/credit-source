@@ -35,4 +35,4 @@ if (process.env.CREDIT_REQUEST_CONTRACT_ADDRESS_AVAX) {
   );
 }
 
-export { creditRequestContractArb, creditRequestContractAvax };
+export { creditRequestContractArb, creditRequestContractAvax, providerAvalanche };
