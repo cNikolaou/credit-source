@@ -6,9 +6,14 @@ interface RequesterCardProps {
 
 export default function RequesterCard({ data }: RequesterCardProps) {
   return (
-    <div className="bg-white p-6 rounded shadow-lg">
+    <div className="bg-white p-6 rounded shadow-lg mb-4">
       <h2 className="text-gray-800 text-lg font-bold">{data.address}</h2>
-      <h3 className="text-gray-600 text-md mb-4">Requested Credit: {data.requestedCredit} DAI</h3>
+      <h3 className="text-gray-600 text-md">
+        Requested Credit in Arbitrum: {data.requestedCreditArb} DAI
+      </h3>
+      <h3 className="text-gray-600 text-md mb-4">
+        Requested Credit in Avalanche: {data.requestedCreditAvax} DAI
+      </h3>
       <ul className="list-disc list-inside text-gray-700 list-none">
         <li>Trusted by: {data.creditData.ethereum.trustedBy} accounts in Ethereum</li>
         <li>Trusted by: {data.creditData.arbitrum.trustedBy} accounts in Arbitrum</li>

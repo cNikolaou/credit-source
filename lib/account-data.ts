@@ -1,4 +1,4 @@
-import { utils } from 'ethers';
+import { Contract, utils } from 'ethers';
 
 import { getAccountCreditData, AccountCreditData } from '@/lib/credit';
 import {
@@ -8,11 +8,10 @@ import {
   getTokenBalance,
   Chain,
 } from '@/lib/token';
+import { creditRequestContractArb, creditRequestContractAvax } from '@/lib/contract';
 
-import creditRequestContract from './contract';
-
-async function getAccounts(): Promise<string[]> {
-  const requesters = await creditRequestContract.getAddressesWithRequests();
+async function getAccounts(creditContract: Contract): Promise<string[]> {
+  const requesters = await creditContract.getAddressesWithRequests();
   return requesters;
 }
 
@@ -20,24 +19,30 @@ export type AccountData = {
   address: string;
   creditData: AccountCreditData;
   currentBalance: AccountCurrentBalance;
-  requestedCredit: string;
+  requestedCreditArb: string;
+  requestedCreditAvax: string;
 };
 
 export async function getAccountData(): Promise<AccountData[]> {
   // fetch data for all accounts that are requesting additional credit
 
-  const accounts = await getAccounts();
+  const accountsArbitrum = await getAccounts(creditRequestContractArb);
+  const accountsAvalanche = await getAccounts(creditRequestContractAvax);
+  const concat = accountsArbitrum.concat(accountsAvalanche);
+  const accounts = Array.from(new Set(concat));
 
   const accountDataPromises = accounts.map(async (address) => {
     const creditData = await getAccountCreditData(address);
     const currentBalance = await getBalance(address);
-    const requestedCredit = await creditRequestContract.getRequestedCredit(address);
+    const requestedCreditArb = await creditRequestContractArb.getRequestedCredit(address);
+    const requestedCreditAvax = await creditRequestContractAvax.getRequestedCredit(address);
 
     return {
       address: address,
       creditData: creditData,
       currentBalance: currentBalance,
-      requestedCredit: utils.formatUnits(requestedCredit, 18),
+      requestedCreditArb: utils.formatUnits(requestedCreditArb, 18),
+      requestedCreditAvax: utils.formatUnits(requestedCreditAvax, 18),
     };
   });
 
@@ -57,7 +62,10 @@ export type FilteredAccountData = AccountData & {
 };
 
 export async function getAccountFilteredData(addressFilters: Addresses[]) {
-  const accounts = await getAccounts();
+  const accountsArbitrum = await getAccounts(creditRequestContractArb);
+  const accountsAvalanche = await getAccounts(creditRequestContractAvax);
+  const concat = accountsArbitrum.concat(accountsAvalanche);
+  const accounts = Array.from(new Set(concat));
 
   const tokenFilters = addressFilters
     .filter((flt) => flt.type === 'token' && flt.address !== '')
@@ -80,13 +88,15 @@ export async function getAccountFilteredData(addressFilters: Addresses[]) {
   const accountDataPromises = accounts.map(async (address) => {
     const creditData = await getAccountCreditData(address);
     const currentBalance = await getBalance(address);
-    const requestedCredit = await creditRequestContract.getRequestedCredit(address);
+    const requestedCreditArb = await creditRequestContractArb.getRequestedCredit(address);
+    const requestedCreditAvax = await creditRequestContractAvax.getRequestedCredit(address);
 
     const result: FilteredAccountData = {
       address,
       creditData,
       currentBalance,
-      requestedCredit: utils.formatUnits(requestedCredit, 18),
+      requestedCreditArb: utils.formatUnits(requestedCreditArb, 18),
+      requestedCreditAvax: utils.formatUnits(requestedCreditAvax, 18),
     };
 
     if (tokenFilters.length > 0) {
