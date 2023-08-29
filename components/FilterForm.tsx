@@ -50,47 +50,50 @@ export default function FilterForm({ onApplyFilter }: FilterFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mt-4">
-        <button type="button" onClick={handleAddAddress} className="mr-4">
-          Add Another Address
-        </button>
-        <button type="submit" className="">
-          Apply Filters
-        </button>
-      </div>
-      {addresses.map((address, index) => (
-        <div key={index} className="mt-2">
-          <input
-            type="text"
-            placeholder="Token or NFT Contract Address"
-            value={address.address}
-            onChange={(event) => handleAddressChange(index, event)}
-            className="p-2 border border-gray-300 rounded w-1/2"
-          />
-          <select
-            value={address.type}
-            onChange={(event) => handleTypeChange(index, event)}
-            className="p-2 border border-gray-300 rounded ml-2"
-          >
-            <option value="token">Token</option>
-            <option value="nft">NFT</option>
-          </select>
-          <select
-            value={address.chain}
-            onChange={(event) => handleChainChange(index, event)}
-            className="p-2 border border-gray-300 rounded ml-2"
-          >
-            <option value="Ethereum">Ethereum</option>
-            <option value="Arbitrum">Arbitrum</option>
-            <option value="Optimism">Optimism</option>
-            <option value="Avalanche">Avalanche</option>
-          </select>
-          <button type="button" onClick={() => handleDeleteFilter(index)} className="ml-2">
-            Delete
+    <>
+      <h1 className="text-2xl font-bold">Filter Requesters</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mt-4">
+          <button type="button" onClick={handleAddAddress} className="mr-4">
+            Add Another Address
+          </button>
+          <button type="submit" className="">
+            Apply Filters
           </button>
         </div>
-      ))}
-    </form>
+        {addresses.map((address, index) => (
+          <div key={index} className="mt-2">
+            <input
+              type="text"
+              placeholder="Token or NFT Contract Address"
+              value={address.address}
+              onChange={(event) => handleAddressChange(index, event)}
+              className="p-2 border border-gray-300 rounded w-1/2"
+            />
+            <select
+              value={address.type}
+              onChange={(event) => handleTypeChange(index, event)}
+              className="p-2 border border-gray-300 rounded ml-2"
+            >
+              <option value="token">Token</option>
+              <option value="nft">NFT</option>
+            </select>
+            <select
+              value={address.chain}
+              onChange={(event) => handleChainChange(index, event)}
+              className="p-2 border border-gray-300 rounded ml-2"
+            >
+              <option value="Ethereum">Ethereum</option>
+              <option value="Arbitrum">Arbitrum</option>
+              <option value="Optimism">Optimism</option>
+              <option value="Avalanche">Avalanche</option>
+            </select>
+            <button type="button" onClick={() => handleDeleteFilter(index)} className="ml-2">
+              Delete
+            </button>
+          </div>
+        ))}
+      </form>
+    </>
   );
 }
