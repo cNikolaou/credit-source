@@ -84,6 +84,7 @@ export default function FilterForm({ onApplyFilter }: FilterFormProps) {
             <option value="Ethereum">Ethereum</option>
             <option value="Arbitrum">Arbitrum</option>
             <option value="Optimism">Optimism</option>
+            <option value="Avalanche">Avalanche</option>
           </select>
           <button type="button" onClick={() => handleDeleteFilter(index)} className="ml-2">
             Delete

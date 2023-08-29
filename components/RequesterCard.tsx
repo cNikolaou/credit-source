@@ -36,7 +36,7 @@ export default function RequesterCard({ data }: RequesterCardProps) {
             <hr />
             <h3>Token Balances</h3>
             {data.tokenBalances?.map((token) => (
-              <p>
+              <p key={token.tokenAddress}>
                 Contract {token.tokenAddress} has {token.balance}
               </p>
             ))}

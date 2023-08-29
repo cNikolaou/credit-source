@@ -1,5 +1,5 @@
 import { Network, Alchemy, TokenBalancesResponse } from 'alchemy-sdk';
-import { utils } from 'ethers';
+import { ethers, utils } from 'ethers';
 import { providerAvalanche } from './contract';
 
 const settingsEthereum = {
@@ -81,6 +81,30 @@ function processTokenBalancesResponse(
   return data;
 }
 
+async function getAvalancheTokenBalances(userAddress: string, tokenContractAddresses: string[]) {
+  const tokenERC20Abi = [
+    'function balanceOf(address owner) view returns (uint256)',
+    'function decimals() view returns (uint8)',
+  ];
+
+  const dataPromises = tokenContractAddresses.map(async (tokenContractAddress) => {
+    const contract = new ethers.Contract(tokenContractAddress, tokenERC20Abi, providerAvalanche);
+    const [balance, decimals] = await Promise.all([
+      contract.balanceOf(userAddress),
+      contract.decimals(),
+    ]);
+    return {
+      tokenAddress: tokenContractAddress,
+      chain: 'Avalanche',
+      balance: ethers.utils.formatUnits(balance, decimals),
+    };
+  });
+
+  const data = Promise.all(dataPromises);
+
+  return data;
+}
+
 export async function getTokenBalance(
   userAddress: UserAddress,
   tokenContractAddresses: TokenContractAddress[],
@@ -97,6 +121,9 @@ export async function getTokenBalance(
     .map((addressData) => addressData.address);
   const optimismTokens = tokenContractAddresses
     .filter((address) => address.chain === 'Optimism')
+    .map((addressData) => addressData.address);
+  const avalancheTokens = tokenContractAddresses
+    .filter((address) => address.chain === 'Avalanche')
     .map((addressData) => addressData.address);
 
   let result: AccountCurrentTokenBalance[] = [];
@@ -136,6 +163,16 @@ export async function getTokenBalance(
         optimismTokens,
       );
       const data = processTokenBalancesResponse(tokenBalances, 'Optimism');
+      result = [...result, ...data];
+    } catch (error) {
+      console.error(error);
+      throw new Error('Not valid contract_addresses');
+    }
+  }
+
+  if (avalancheTokens.length > 0) {
+    try {
+      const data = await getAvalancheTokenBalances(userAddress, avalancheTokens);
       result = [...result, ...data];
     } catch (error) {
       console.error(error);
