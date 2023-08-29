@@ -43,3 +43,9 @@ To run the development server:
 ```bash
 npm run dev
 ```
+
+## UI Overview
+
+Below is a screenshot of the
+
+![Overview](/docs/demo.png)
